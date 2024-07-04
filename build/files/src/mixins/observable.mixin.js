@@ -1,5 +1,4 @@
-(function() {
-
+;(function () {
   /**
    * @private
    * @param {String} eventName
@@ -7,14 +6,13 @@
    */
   function _removeEventListener(eventName, handler) {
     if (!this.__eventListeners[eventName]) {
-      return;
+      return
     }
-    var eventListener = this.__eventListeners[eventName];
+    var eventListener = this.__eventListeners[eventName]
     if (handler) {
-      eventListener[eventListener.indexOf(handler)] = false;
-    }
-    else {
-      fabric.util.array.fill(eventListener, false);
+      eventListener[eventListener.indexOf(handler)] = false
+    } else {
+      fabric.util.array.fill(eventListener, false)
     }
   }
 
@@ -29,42 +27,40 @@
    */
   function on(eventName, handler) {
     if (!this.__eventListeners) {
-      this.__eventListeners = { };
+      this.__eventListeners = {}
     }
     // one object with key/value pairs was passed
     if (arguments.length === 1) {
       for (var prop in eventName) {
-        this.on(prop, eventName[prop]);
+        this.on(prop, eventName[prop])
       }
-    }
-    else {
+    } else {
       if (!this.__eventListeners[eventName]) {
-        this.__eventListeners[eventName] = [];
+        this.__eventListeners[eventName] = []
       }
-      this.__eventListeners[eventName].push(handler);
+      this.__eventListeners[eventName].push(handler)
     }
-    return this;
+    return this
   }
 
   function _once(eventName, handler) {
     var _handler = function () {
-      handler.apply(this, arguments);
-      this.off(eventName, _handler);
-    }.bind(this);
-    this.on(eventName, _handler);
+      handler.apply(this, arguments)
+      this.off(eventName, _handler)
+    }.bind(this)
+    this.on(eventName, _handler)
   }
 
   function once(eventName, handler) {
     // one object with key/value pairs was passed
     if (arguments.length === 1) {
       for (var prop in eventName) {
-        _once.call(this, prop, eventName[prop]);
+        _once.call(this, prop, eventName[prop])
       }
+    } else {
+      _once.call(this, eventName, handler)
     }
-    else {
-      _once.call(this, eventName, handler);
-    }
-    return this;
+    return this
   }
 
   /**
@@ -79,25 +75,24 @@
    */
   function off(eventName, handler) {
     if (!this.__eventListeners) {
-      return this;
+      return this
     }
 
     // remove all key/value pairs (event name -> event handler)
     if (arguments.length === 0) {
       for (eventName in this.__eventListeners) {
-        _removeEventListener.call(this, eventName);
+        _removeEventListener.call(this, eventName)
       }
     }
     // one object with key/value pairs was passed
     else if (arguments.length === 1 && typeof arguments[0] === 'object') {
       for (var prop in eventName) {
-        _removeEventListener.call(this, prop, eventName[prop]);
+        _removeEventListener.call(this, prop, eventName[prop])
       }
+    } else {
+      _removeEventListener.call(this, eventName, handler)
     }
-    else {
-      _removeEventListener.call(this, eventName, handler);
-    }
-    return this;
+    return this
   }
 
   /**
@@ -110,32 +105,32 @@
    */
   function fire(eventName, options) {
     if (!this.__eventListeners) {
-      return this;
+      return this
     }
 
-    var listenersForEvent = this.__eventListeners[eventName];
+    var listenersForEvent = this.__eventListeners[eventName]
     if (!listenersForEvent) {
-      return this;
+      return this
     }
 
     for (var i = 0, len = listenersForEvent.length; i < len; i++) {
-      listenersForEvent[i] && listenersForEvent[i].call(this, options || { });
+      listenersForEvent[i] && listenersForEvent[i].call(this, options || {})
     }
-    this.__eventListeners[eventName] = listenersForEvent.filter(function(value) {
-      return value !== false;
-    });
-    return this;
+    this.__eventListeners[eventName] = listenersForEvent.filter(function (value) {
+      return value !== false
+    })
+    return this
   }
 
   /**
    * @namespace fabric.Observable
-   * @tutorial {@link http://fabricjs.com/fabric-intro-part-2#events}
-   * @see {@link http://fabricjs.com/events|Events demo}
+   * @tutorial {@link https://bombcowpat.github.io/fabric-intro-part-2#events}
+   * @see {@link https://bombcowpat.github.io/events|Events demo}
    */
   fabric.Observable = {
     fire: fire,
     on: on,
     once: once,
     off: off,
-  };
-})();
+  }
+})()
