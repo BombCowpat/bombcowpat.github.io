@@ -1,4 +1,4 @@
-### Running this repo locally
+### Running this repo locally 
 
 This repo uses [Jekyll](http://jekyllrb.com/) to serve pages, which can be installed [here](http://jekyllrb.com/docs/installation/#install-with-rubygems).
 
